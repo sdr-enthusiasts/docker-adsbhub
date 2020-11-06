@@ -1,98 +1,143 @@
 # docker-adsbhub
 
-Please see https://www.adsbhub.org/howtofeed.php for instructions. I'm not even sure you need to start with the biggerguy images.
+Docker container to send ADSB data to [ADSBHub](https://www.adsbhub.org). Designed to work in tandem with [mikenye/readsb](https://hub.docker.com/repository/docker/mikenye/readsb) or [mikenye/piaware](https://hub.docker.com/repository/docker/mikenye/piaware). Builds and runs on `x86_64`, `arm64` and `arm32v7` (see below).
 
-## adsbhub block in docker-compose.yml
+This container pulls ModeS/BEAST information from a host or container providing ModeS/BEAST data, and sends data to ADSBHub.
 
-  # adsbhub ###################################################################
+## Supported tags and respective Dockerfiles
+
+* `latest` (`master` branch, `Dockerfile`)
+* Version and architecture specific tags available
+
+## Multi Architecture Support
+
+Currently, this image should pull and run on the following architectures:
+
+* `amd64`: Linux x86-64
+* `arm32v7`: ARMv7 32-bit (Odroid HC1/HC2/XU4, RPi 2/3)
+* `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
+
+## Obtaining ADSBHub Station Key
+
+First-time users should obtain a ADSBHub Station dynamic IP key. Follow the directions for steps 1 and 2 at [ADSBHub how to feed](https://www.adsbhub.org/howtofeed.php), ensuring your station is set up as a client.
+
+## Up-and-Running with `docker run`
+
+```shell
+docker run \
+ -d \
+ --rm \
+ --name adsbhub \
+ -e TZ="YOURTIMEZONE" \
+ -e BEASTHOST=YOURBEASTHOST \
+ -e CLIENTKEY=YOURSHARECODE \
+ mikenye/adsb-hub
+```
+
+You should obviously replace `YOURBEASTHOST`, and `YOURSHARECODE` with appropriate values.
+
+For example:
+
+```shell
+docker run \
+ -d \
+ --rm \
+ --name adsbhub \
+ -e TZ="Australia/Perth" \
+ -e BEASTHOST=readsb \
+ -e LAT=-33.33333 \
+ -e LONG=111.11111 \
+ -e SHARECODE=zg84632abhf231 \
+ mikenye/adsb-hub
+```
+
+## Up-and-Running with Docker Compose
+
+```yaml
+version: '2.0'
+
+services:
   adsbhub:
-    image: thebiggerguy/docker-ads-b-adsbhub:${TAG:-latest}
-    build:
-      context: adsbhub
-      dockerfile: Dockerfile-adsbhub
-      cache_from:
-        - thebiggerguy/docker-ads-b-adsbhub
-        - thebiggerguy/docker-ads-b-adsbhub:${TAG:-latest}
-    depends_on:
-      - readsb
-    deploy:
-      restart_policy:
-        condition: always
-        delay: 5s
+    image: mikenye/adsb-hub:latest
+    tty: true
+    container_name: adsbhub
+    restart: always
+    environment:
+      - TZ=Australia/Perth
+      - BEASTHOST=readsb
+      - SHARECODE=zg84632abhf231
+```
 
-## Contents of adsbhub/Dockerfile-adsbhub
+## Up-and-Running with Docker Compose, including `mikenye/readsb`
 
-### Note: Make sure you chmod 755 adsbhub-client.sh on your host so that it will execute when copied into the container at build time
+```yaml
+version: '2.0'
 
-FROM multiarch/alpine:armhf-v3.9
+networks:
+  adsbnet:
 
-RUN apk add --no-cache socat iputils
+services:
 
-COPY adsbhub-client.sh /usr/local/bin/adsbhub-client
-ENTRYPOINT ["adsbhub-client"]
+  readsb:
+    image: mikenye/readsb:latest
+    tty: true
+    container_name: readsb
+    restart: always
+    devices:
+      - /dev/bus/usb/001/007:/dev/bus/usb/001/007
+    networks:
+      - adsbnet
+    command:
+      - --dcfilter
+      - --device-type=rtlsdr
+      - --fix
+      - --forward-mlat
+      - --json-location-accuracy=2
+      - --lat=-33.33333
+      - --lon=111.11111
+      - --metric
+      - --mlat
+      - --modeac
+      - --ppm=0
+      - --net
+      - --stats-every=3600
+      - --quiet
+      - --write-json=/var/run/readsb
 
-## Contents of adsbhub/adsbhub-client.sh
+  pfclient:
+    image: mikenye/planefinder:latest
+    tty: true
+    container_name: pfclient
+    restart: always
+    environment:
+      - TZ=Australia/Perth
+      - BEASTHOST=readsb
+      - SHARECODE=zg84632abhf231
+    networks:
+      - adsbnet
+```
 
-### Note: You will need to update the ckey variable in order to complete your registration on the site. Please carefully read the instructions listed at the site above.
+For an explanation of the `mikenye/readsb` image's configuration, see that image's readme.
 
-#!/bin/bash
-# ------------------------------------------------------------------
-# www.adsbhub.org
-# version: 1.04
-# ------------------------------------------------------------------
+## Ports
 
-ckey=''
-cmd="nc -w 60 -q 10 readsb 30002 | nc -w 60 -q 10 data.adsbhub.org 5001"
-myip="0.0.0.0"
-cmin=0
+No ports are exposed in this container
 
-while true; do
+## Environment variables
 
-    # Check connection and reconnect
-    check=`netstat -a | grep "adsbhub[.]org[.]5001 \|adsbhub[.]org:5001 \|data[.]adsbhub[.]org[.]5001 \|data[.]adsbhub[.]org:5001 "`
-    #check=`netstat -an | grep "94[.]130[.]23[.]233[.]5001 \|94[.]130[.]23[.]233:5001 "`
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `TZ` | Timezone for the container. | Unset|
+| `BEASTHOST` | Host for RAW ADSB packets. Required. | Unset |
+| `BEASTPORT` | Port on BEASTHOST that provides raw ADSB packets | 30002 |
+| `CLIENTKEY` | ADSBHub Station Dynamic IP key. Required. | Unset |
 
-    if [ ${#check} -ge 10 ]
-    then
-      result="connected"
-    else
-      result="not connected"
-      eval "${cmd}" &
-    fi
+## Logging
 
-    #echo $result
+* All processes are logged to the container's stdout, and can be viewed with `docker logs [-f] container`.
 
+## Getting Help
 
-    # Update IP if change
-    if [ -n "$ckey" ]
-    then
-      cmin=$((cmin-1))
-      if [ $cmin -le 0 ]
-      then
-        cmin=5
-        currentip=`timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://data.adsbhub.org/getmyip.php`
+You can [log an issue](https://github.com/mikenye/docker-planefinder/issues) on the project's GitHub.
 
-        if [ ${#currentip} -ge 7 ] && [ "$currentip" != "$myip" ]
-        then
-          skey=`timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://www.adsbhub.org/key.php`
-          if [ ${#skey} -ge 33 ]
-          then
-            ss=${skey: -1}
-            skey=${skey::-1}
-            md5=`echo -n $ckey$skey | md5sum | awk '{print $1}'`
-
-            result=`timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- "https://www.adsbhub.org/updateip.php?sessid=$md5$ss&myip=$currentip"`
-
-            if [ "$result" == "$md5$ss" ]
-            then
-              myip=$currentip
-              #echo $result
-            fi
-	  fi
-	fi
-      fi
-    fi
-
-    sleep 60
-    
-done
+I also have a [Discord channel](https://discord.gg/sTf9uYF), feel free to [join](https://discord.gg/sTf9uYF) and converse.
