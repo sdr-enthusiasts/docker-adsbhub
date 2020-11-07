@@ -24,7 +24,7 @@ Currently, this image should pull and run on the following architectures:
 
 ### Obtaining ADSBHub Station Key
 
-First-time users should obtain a ADSBHub Station dynamic IP key. Follow the directions for steps 1 and 2 at [ADSBHub how to feed](https://www.adsbhub.org/howtofeed.php), ensuring your station is set up as a client.
+First-time users should obtain a ADSBHub Station dynamic IP key. Follow the directions for steps 1 and 2 at [ADSBHub how to feed](https://www.adsbhub.org/howtofeed.php), ensuring your station is set up as a client with and the data protocol set as "SBS".
 
 ### Setting up your station
 
@@ -138,7 +138,7 @@ No ports are exposed in this container
 ## Environment variables
 
 | Variable | Description | Required | Default |
-|----------|-------------|---------|
+|----------|-------------|---------|--------|
 | `TZ` | Timezone for the container. | Optional | `UTC` |
 | `SBSHOST` | Host for RAW ADSB packets.| Required | Unset |
 | `SBSPORT` | Port on SBSHOST that provides beast formatted ADSB packets | Optional | `30005` |
