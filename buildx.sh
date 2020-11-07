@@ -16,7 +16,7 @@ docker buildx build --no-cache -t "${REPO}/${IMAGE}:latest" --compress --push --
 
 # Get piaware version from latest
 docker pull "${REPO}/${IMAGE}:latest"
-VERSION=$(docker run --rm --entrypoint cat ${REPO}/${IMAGE}:latest /VERSION | grep pfclient | cut -d " " -f 2)
+VERSION=$(docker run --rm --entrypoint cat ${REPO}/${IMAGE}:latest /VERSION | /usr/bin/adsbhub.sh | grep -i version | head -1 | cut -d ':' -f 2 | tr -d ' ')
 
 # Build & push version-specific
 docker buildx build -t "${REPO}/${IMAGE}:${VERSION}" --compress --push --platform "${PLATFORMS}" .
