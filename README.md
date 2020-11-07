@@ -2,7 +2,7 @@
 
 Docker container to send ADSB data to [ADSBHub](https://www.adsbhub.org). Designed to work in tandem with [mikenye/readsb](https://hub.docker.com/repository/docker/mikenye/readsb) or [mikenye/piaware](https://hub.docker.com/repository/docker/mikenye/piaware). Builds and runs on `x86_64`, `arm64` and `arm32v7` (see below).
 
-This container pulls ModeS/BEAST information from a host or container providing ModeS/BEAST data, and sends data to ADSBHub.
+This container pulls SBS/Basestation protocol data from a host or container, and sends the data to ADSBHub.
 
 Thanks go to [fredclausen](https://github.com/fredclausen) for developing the original image.
 
@@ -31,12 +31,12 @@ docker run \
  --rm \
  --name adsbhub \
  -e TZ="YOURTIMEZONE" \
- -e BEASTHOST=YOURBEASTHOST \
+ -e SBSHOST=YOURSBSHOST \
  -e CLIENTKEY=YOURSHARECODE \
  mikenye/adsbhub
 ```
 
-You should obviously replace `YOURBEASTHOST`, and `YOURSHARECODE` with appropriate values.
+You should obviously replace `YOURSBSHOST`, and `YOURSHARECODE` with appropriate values.
 
 For example:
 
@@ -46,7 +46,7 @@ docker run \
  --rm \
  --name adsbhub \
  -e TZ="Australia/Perth" \
- -e BEASTHOST=readsb \
+ -e SBSHOST=readsb \
  -e LAT=-33.33333 \
  -e LONG=111.11111 \
  -e SHARECODE=zg84632abhf231 \
@@ -66,7 +66,7 @@ services:
     restart: always
     environment:
       - TZ=Australia/Perth
-      - BEASTHOST=readsb
+      - SBSHOST=readsb
       - SHARECODE=zg84632abhf231
 ```
 
@@ -112,7 +112,7 @@ services:
     restart: always
     environment:
       - TZ=Australia/Perth
-      - BEASTHOST=readsb
+      - SBSHOST=readsb
       - SHARECODE=zg84632abhf231
     networks:
       - adsbnet
@@ -128,9 +128,9 @@ No ports are exposed in this container
 
 | Variable | Description | Required | Default |
 |----------|-------------|---------|
-| `TZ` | Timezone for the container. | Optional | Unset|
-| `BEASTHOST` | Host for RAW ADSB packets.| Required | Unset |
-| `BEASTPORT` | Port on BEASTHOST that provides beast formatted ADSB packets | Optional | 30002 |
+| `TZ` | Timezone for the container. | Optional | `UTC` |
+| `SBSHOST` | Host for RAW ADSB packets.| Required | Unset |
+| `SBSPORT` | Port on SBSHOST that provides beast formatted ADSB packets | Optional | `30005` |
 | `CLIENTKEY` | ADSBHub Station Dynamic IP key. | Required | Unset |
 
 ## Logging
