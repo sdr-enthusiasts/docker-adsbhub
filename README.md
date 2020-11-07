@@ -31,7 +31,7 @@ docker run \
  -e TZ="YOURTIMEZONE" \
  -e BEASTHOST=YOURBEASTHOST \
  -e CLIENTKEY=YOURSHARECODE \
- mikenye/adsb-hub
+ mikenye/adsbhub
 ```
 
 You should obviously replace `YOURBEASTHOST`, and `YOURSHARECODE` with appropriate values.
@@ -48,7 +48,7 @@ docker run \
  -e LAT=-33.33333 \
  -e LONG=111.11111 \
  -e SHARECODE=zg84632abhf231 \
- mikenye/adsb-hub
+ mikenye/adsbhub
 ```
 
 ## Up-and-Running with Docker Compose
@@ -58,7 +58,7 @@ version: '2.0'
 
 services:
   adsbhub:
-    image: mikenye/adsb-hub:latest
+    image: mikenye/adsbhub:latest
     tty: true
     container_name: adsbhub
     restart: always
@@ -104,10 +104,10 @@ services:
       - --quiet
       - --write-json=/var/run/readsb
 
-  pfclient:
-    image: mikenye/planefinder:latest
+  adsbhub:
+    image: mikenye/adsbhub:latest
     tty: true
-    container_name: pfclient
+    container_name: adsbhub
     restart: always
     environment:
       - TZ=Australia/Perth
@@ -125,12 +125,12 @@ No ports are exposed in this container
 
 ## Environment variables
 
-| Variable | Description | Default |
+| Variable | Description | Required | Default |
 |----------|-------------|---------|
-| `TZ` | Timezone for the container. | Unset|
-| `BEASTHOST` | Host for RAW ADSB packets. Required. | Unset |
-| `BEASTPORT` | Port on BEASTHOST that provides raw ADSB packets | 30002 |
-| `CLIENTKEY` | ADSBHub Station Dynamic IP key. Required. | Unset |
+| `TZ` | Timezone for the container. | Optional | Unset|
+| `BEASTHOST` | Host for RAW ADSB packets.| Required | Unset |
+| `BEASTPORT` | Port on BEASTHOST that provides beast formatted ADSB packets | Optional | 30002 |
+| `CLIENTKEY` | ADSBHub Station Dynamic IP key. | Required | Unset |
 
 ## Logging
 

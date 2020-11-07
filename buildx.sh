@@ -4,7 +4,7 @@
 set -xe
 
 REPO=mikenye
-IMAGE=planefinder
+IMAGE=adsbhub
 PLATFORMS="linux/amd64,linux/arm/v7,linux/arm64"
 
 docker context use x86_64

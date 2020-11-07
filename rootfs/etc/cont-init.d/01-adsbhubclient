@@ -5,7 +5,6 @@
 EXITCODE=0
 if [ -z "${BEASTPORT}" ]; then
   echo "BEASTPORT environment variable not set. Using default"
-  export BEASTPORT=30002
 fi
 if [ -z "${BEASTHOST}" ]; then
   echo "ERROR: BEASTHOST environment variable not set"
@@ -26,6 +25,3 @@ if [ -z "${TZ}" ]; then
 else
   ln -snf "/usr/share/zoneinfo/$TZ" /etc/localtime && echo "$TZ" >/etc/timezone
 fi
-
-chmod +x /usr/bin/adsbhub.sh
-
