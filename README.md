@@ -4,6 +4,8 @@ Docker container to send ADSB data to [ADSBHub](https://www.adsbhub.org). Design
 
 This container pulls ModeS/BEAST information from a host or container providing ModeS/BEAST data, and sends data to ADSBHub.
 
+Thanks go to [fredclausen](https://github.com/fredclausen) for developing the original image.
+
 ## Supported tags and respective Dockerfiles
 
 * `latest` (`master` branch, `Dockerfile`)
