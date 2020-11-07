@@ -137,6 +137,6 @@ No ports are exposed in this container
 
 ## Getting Help
 
-You can [log an issue](https://github.com/mikenye/docker-planefinder/issues) on the project's GitHub.
+You can [log an issue](https://github.com/mikenye/docker-adsbhub/issues) on the project's GitHub.
 
 I also have a [Discord channel](https://discord.gg/sTf9uYF), feel free to [join](https://discord.gg/sTf9uYF) and converse.
