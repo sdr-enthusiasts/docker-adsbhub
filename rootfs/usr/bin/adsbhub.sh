@@ -6,7 +6,7 @@
 
 ckey="${CLIENTKEY}"
 #cmd="nc -w 60 -q 10 ${BEASTHOST} ${BEASTPORT} | nc -w 60 -q 10 data.adsbhub.org 5001"
-cmd="socat -t 10 -T 60 -u TCP4:${BEASTHOST}:${BEASTPORT} TCP4:data.adsbhub.org:5001"
+cmd="socat -t 10 -T 60 -u TCP4:${SBSHOST}:${SBSPORT} TCP4:data.adsbhub.org:5001"
 #cmd="nc -w 60 -q 10 localhost 30002 | nc -w 60 -q 10 94.130.23.233 5001"
 myip4="0.0.0.0"
 myip6="::"

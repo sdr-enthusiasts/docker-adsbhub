@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-ENV BEASTPORT=30005 \
+ENV SBSPORT=30003 \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -28,5 +28,3 @@ RUN set -x && \
 COPY rootfs/ /
 
 ENTRYPOINT [ "/init" ]
-
-EXPOSE 5001/tcp

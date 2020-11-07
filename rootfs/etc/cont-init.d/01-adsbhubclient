@@ -3,11 +3,8 @@
 
 # Check to make sure the correct command line arguments have been set
 EXITCODE=0
-if [ -z "${BEASTPORT}" ]; then
-  echo "BEASTPORT environment variable not set. Using default"
-fi
-if [ -z "${BEASTHOST}" ]; then
-  echo "ERROR: BEASTHOST environment variable not set"
+if [ -z "${SBSHOST}" ]; then
+  echo "ERROR: SBSHOST environment variable not set"
   EXITCODE=1
 fi
 if [ -z "${CLIENTKEY}" ]; then
