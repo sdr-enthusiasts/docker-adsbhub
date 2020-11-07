@@ -91,7 +91,6 @@ services:
       - --dcfilter
       - --device-type=rtlsdr
       - --fix
-      - --forward-mlat
       - --json-location-accuracy=2
       - --lat=-33.33333
       - --lon=111.11111
