@@ -15,7 +15,7 @@ RUN set -x && \
     TEMP_PACKAGES+=(gnupg) && \
     TEMP_PACKAGES+=(file) && \
     TEMP_PACKAGES+=(curl) && \
-     apt-get update && \
+    apt-get update && \
     apt-get install -y --no-install-recommends \
         ${KEPT_PACKAGES[@]} \
         ${TEMP_PACKAGES[@]} \
