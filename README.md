@@ -20,9 +20,19 @@ Currently, this image should pull and run on the following architectures:
 * `arm32v6`: ARMv6 32-bit (Older RPis etc)
 * `arm64`: ARMv8 64-bit (RPi 4 64-bit OSes)
 
-## Obtaining ADSBHub Station Key
+## First-time users
+
+### Obtaining ADSBHub Station Key
 
 First-time users should obtain a ADSBHub Station dynamic IP key. Follow the directions for steps 1 and 2 at [ADSBHub how to feed](https://www.adsbhub.org/howtofeed.php), ensuring your station is set up as a client.
+
+### Setting up your station
+
+In your station preferences, you should set the following:
+
+* Feeder type: `Linux`
+* Data Protocol: `SBS`
+* Station mode: `Client`
 
 ## Up-and-Running with `docker run`
 
