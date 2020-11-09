@@ -43,11 +43,11 @@ docker run \
  --name adsbhub \
  -e TZ="YOURTIMEZONE" \
  -e SBSHOST=YOURSBSHOST \
- -e CLIENTKEY=YOURSHARECODE \
+ -e CLIENTKEY=YOURCLIENTKEY \
  mikenye/adsbhub
 ```
 
-You should obviously replace `YOURSBSHOST`, and `YOURSHARECODE` with appropriate values.
+You should obviously replace `YOURSBSHOST`, and `YOURCLIENTKEY` with appropriate values.
 
 For example:
 
@@ -60,7 +60,7 @@ docker run \
  -e SBSHOST=readsb \
  -e LAT=-33.33333 \
  -e LONG=111.11111 \
- -e SHARECODE=zg84632abhf231 \
+ -e CLIENTKEY=zg84632abhf231 \
  mikenye/adsbhub
 ```
 
@@ -78,7 +78,7 @@ services:
     environment:
       - TZ=Australia/Perth
       - SBSHOST=readsb
-      - SHARECODE=zg84632abhf231
+      - CLIENTKEY=zg84632abhf231
 ```
 
 ## Up-and-Running with Docker Compose, including `mikenye/readsb`
@@ -124,7 +124,7 @@ services:
     environment:
       - TZ=Australia/Perth
       - SBSHOST=readsb
-      - SHARECODE=zg84632abhf231
+      - CLIENTKEY=zg84632abhf231
     networks:
       - adsbnet
 ```
