@@ -46,7 +46,7 @@ while true; do
           then
             ss=${skey: -1}
             skey=${skey::-1}
-            md5=$(echo -n $ckey$skey | md5sum | awk '{print $1}')
+            md5=$(echo -n "$ckey""$skey" | md5sum | awk '{print $1}')
 
             result=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- "https://www.adsbhub.org/updateip.php?sessid=$md5$ss&myip=$currentip4&myip6=$currentip6")
 
