@@ -58,7 +58,7 @@ EXITCODE=0
 ##### Network Connections #####
 
 # Check connection to SBSHOST
-if is_tcp_connection_established $(get_ip "$SBSHOST") "$SBSPORT"; then
+if is_tcp_connection_established "$(get_ip "$SBSHOST")" "$SBSPORT"; then
     echo "Connected to $SBSHOST:$SBSPORT OK: HEALTHY"
 else
     echo "Not connected to $SBSHOST:$SBSPORT: UNHEALTHY"
@@ -66,7 +66,7 @@ else
 fi
 
 # Check connection to data.adsbhub.org
-if is_tcp_connection_established $(get_ip data.adsbhub.org) "5001"; then
+if is_tcp_connection_established "$(get_ip data.adsbhub.org)" "5001"; then
     echo "Connected to data.adsbhub.org:5001 OK: HEALTHY"
 else
     echo "Not connected to data.adsbhub.org:5001: UNHEALTHY"
