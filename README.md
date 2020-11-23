@@ -84,10 +84,12 @@ services:
 ### Escaping special characters
 
 The ADSBHub client key is full of special characters, that can be misinterpreted on multiple levels. To avoid that:
+
 * Wrap the environment variable assignment (the whole assignment, not just the key) in single quotation marks so that YAML parses it correctly.
 * Duplicate every `$` character. The single `$` sign is the start of a [variable substitution](https://docs.docker.com/compose/compose-file/#variable-substitution) in docker-compose. Use `$$` instead.
 
 If your client key was `abc$123$$$ABC`, your `docker-compose.yml` should look like this:
+
 ```yaml
 environment:
   - 'CLIENTKEY=abc$$123$$$$$$ABC'
