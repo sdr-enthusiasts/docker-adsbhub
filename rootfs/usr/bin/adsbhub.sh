@@ -56,8 +56,8 @@ while true; do
               myip6=$currentip6
               echo "$result"
             fi
-	  fi
-	fi
+	        fi
+	      fi
       fi
     fi
 

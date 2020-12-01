@@ -1,0 +1,49 @@
+#!/usr/bin/with-contenv bash
+# shellcheck shell=bash
+
+myip4="0.0.0.0"
+myip6="::"
+
+# Update IP if required
+if [ -n "$CLIENTKEY" ]; then
+    currentip4=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip4.adsbhub.org/getmyip.php)
+    currentip6=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip6.adsbhub.org/getmyip.php)
+
+    # If the IP address requires an update
+    if { [ ${#currentip4} -ge 7 ] && [ "$currentip4" != "$myip4" ]; } || { [ ${#currentip6} -ge 2 ] && [ "$currentip6" != "$myip6" ]; }; then
+
+        # Get key
+        skey=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://www.adsbhub.org/key.php)
+        if [ ${#skey} -ge 33 ]; then
+
+            # Create session ID for IP update
+            ss=${skey: -1}
+            skey=${skey::-1}
+            md5=$(echo -n "$CLIENTKEY""$skey" | md5sum | awk '{print $1}')
+
+            # Perform IP update
+            result=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- "https://www.adsbhub.org/updateip.php?sessid=${md5}${ss}&myip=${currentip4}&myip6=${currentip6}")
+            if [ "${result}" == "${md5}${ss}" ]; then
+                myip4=${currentip4}
+                myip6=${currentip6}
+
+                # Prepare a nice string for logging
+                ipstring=""
+                if [[ -n "$myip4" ]]; then
+                    ipstring+="$myip4"
+                fi
+                if [[ -n "$myip6" ]]; then
+                    if [[ -n "$ipstring" ]]; then
+                        ipstring+=" [$myip6]"
+                    else
+                        ipstring+="$myip6"
+                    fi
+                fi
+                echo "IP address updated to ${ipstring}, result: ${result}" | \
+                    stdbuf -o0 awk '{print "[ipupdater] " strftime("%Y/%m/%d %H:%M:%S", systime()) " " $0}'
+            fi
+        fi
+    fi
+fi
+
+sleep 300
