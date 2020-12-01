@@ -1,7 +1,10 @@
 FROM debian:stable-slim
 
 ENV SBSPORT=30003 \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=2
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    ADSBHUBHOST=data.adsbhub.org \
+    ADSBHUBPORT=5001
+
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
@@ -12,6 +15,9 @@ RUN set -x && \
     KEPT_PACKAGES+=(wget) && \
     KEPT_PACKAGES+=(net-tools) && \
     KEPT_PACKAGES+=(socat) && \
+    KEPT_PACKAGES+=(netcat) && \
+    KEPT_PACKAGES+=(pv) && \
+    KEPT_PACKAGES+=(gawk) && \
     TEMP_PACKAGES+=(gnupg) && \
     TEMP_PACKAGES+=(file) && \
     TEMP_PACKAGES+=(curl) && \
