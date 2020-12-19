@@ -1,4 +1,4 @@
-# docker-adsbhub
+# mikenye/adsbhub
 
 [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mikenye/docker-adsbhub/Deploy%20to%20Docker%20Hub)](https://github.com/mikenye/docker-adsbhub/actions?query=workflow%3A%22Deploy+to+Docker+Hub%22)
 [![Docker Pulls](https://img.shields.io/docker/pulls/mikenye/adsbhub.svg)](https://hub.docker.com/r/mikenye/adsbhub)
