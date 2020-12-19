@@ -39,6 +39,7 @@ while true; do
         currentip4=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip4.adsbhub.org/getmyip.php)
         currentip6=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip6.adsbhub.org/getmyip.php)
 
+        # shellcheck disable=SC2235
         if ( [ ${#currentip4} -ge 7 ] && [ "$currentip4" != "$myip4" ] ) || ( [ ${#currentip6} -ge 2 ] && [ "$currentip6" != "$myip6" ] )
         then
           skey=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://www.adsbhub.org/key.php)

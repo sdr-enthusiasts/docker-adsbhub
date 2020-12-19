@@ -5,6 +5,8 @@ ENV SBSPORT=30003 \
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
+COPY rootfs/ /
+
 RUN set -x && \
     TEMP_PACKAGES=() && \
     KEPT_PACKAGES=() && \
@@ -23,9 +25,8 @@ RUN set -x && \
     curl -s https://raw.githubusercontent.com/mikenye/deploy-s6-overlay/master/deploy-s6-overlay.sh | sh && \
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
-    rm -rf /src/* /tmp/* /var/lib/apt/lists/* 
-
-COPY rootfs/ /
+    rm -rf /src/* /tmp/* /var/lib/apt/lists/* && \
+    grep -i version /usr/bin/adsbhub.sh | head -1 | cut -d ':' -f 2 | tr -d ' ' > /CONTAINER_VERSION
 
 ENTRYPOINT [ "/init" ]
 
