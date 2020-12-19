@@ -26,7 +26,7 @@ RUN set -x && \
     apt-get remove -y ${TEMP_PACKAGES[@]} && \
     apt-get autoremove -y && \
     rm -rf /src/* /tmp/* /var/lib/apt/lists/* && \
-    cat /usr/bin/adsbhub.sh | grep -i version | head -1 | cut -d ':' -f 2 | tr -d ' ' > /CONTAINER_VERSION
+    grep -i version /usr/bin/adsbhub.sh | head -1 | cut -d ':' -f 2 | tr -d ' ' > /CONTAINER_VERSION
 
 ENTRYPOINT [ "/init" ]
 
