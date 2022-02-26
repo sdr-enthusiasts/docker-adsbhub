@@ -5,7 +5,7 @@
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mikenye/adsbhub/latest)](https://hub.docker.com/r/mikenye/adsbhub)
 [![Discord](https://img.shields.io/discord/734090820684349521)](https://discord.gg/sTf9uYF)
 
-Docker container to send ADS-B data to [ADSBHub](https://www.adsbhub.org). Designed to work in tandem with [mikenye/readsb-protobuf](https://hub.docker.com/r/mikenye/readsb-protobuf). Builds and runs on `x86`, `x86_64`, `arm64`, `arm32v7` annd `arm32v6`.
+Docker container to send ADS-B data to [ADSBHub](https://www.adsbhub.org). Designed to work in tandem with [sdr-enthusiasts/docker-readsb-protobuf](https://github.com/sdr-enthusiasts/docker-readsb-protobuf). Builds and runs on `x86`, `x86_64`, `arm64`, `arm32v7` annd `arm32v6`.
 
 This container pulls SBS/Basestation protocol data from a host or container, and sends the data to ADSBHub.
 
@@ -40,7 +40,7 @@ docker run \
  -e TZ="YOURTIMEZONE" \
  -e SBSHOST=YOURSBSHOST \
  -e CLIENTKEY=YOURCLIENTKEY \
- mikenye/adsbhub
+ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
 ```
 
 You should obviously replace `YOURSBSHOST`, and `YOURCLIENTKEY` with appropriate values.
@@ -57,7 +57,7 @@ docker run \
  -e LAT=-33.33333 \
  -e LONG=111.11111 \
  -e CLIENTKEY=zg84632abhf231 \
- mikenye/adsbhub
+ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
 ```
 
 ## Up-and-Running with Docker Compose
@@ -67,7 +67,7 @@ version: '2.0'
 
 services:
   adsbhub:
-    image: mikenye/adsbhub:latest
+    image: ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
     tty: true
     container_name: adsbhub
     restart: always
@@ -127,7 +127,7 @@ services:
       - --write-json=/var/run/readsb
 
   adsbhub:
-    image: mikenye/adsbhub:latest
+    image: ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
     tty: true
     container_name: adsbhub
     restart: always
@@ -160,6 +160,6 @@ No ports are exposed in this container
 
 ## Getting Help
 
-You can [log an issue](https://github.com/mikenye/docker-adsbhub/issues) on the project's GitHub.
+You can [log an issue](https://github.com/sdr-enthusiasts/docker-adsbhub/issues) on the project's GitHub.
 
 I also have a [Discord channel](https://discord.gg/sTf9uYF), feel free to [join](https://discord.gg/sTf9uYF) and converse.
