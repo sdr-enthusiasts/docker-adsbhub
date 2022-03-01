@@ -70,7 +70,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: mikenye
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Set up buildx for multi platform builds
@@ -113,7 +113,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: mikenye
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Set up buildx for multi platform builds
@@ -169,7 +169,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: mikenye
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Set up buildx for multi platform builds
@@ -218,7 +218,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: mikenye
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Set up buildx for multi platform builds
@@ -286,7 +286,7 @@ jobs:
         name: Login to DockerHub
         uses: docker/login-action@v1
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          username: mikenye
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       # Set up buildx for multi platform builds
