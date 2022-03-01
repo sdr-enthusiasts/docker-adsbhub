@@ -1,7 +1,5 @@
-# mikenye/adsbhub
+# sdr-enthusiasts/docker-adsbhub
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mikenye/docker-adsbhub/Deploy%20to%20Docker%20Hub)](https://github.com/mikenye/docker-adsbhub/actions?query=workflow%3A%22Deploy+to+Docker+Hub%22)
-[![Docker Pulls](https://img.shields.io/docker/pulls/mikenye/adsbhub.svg)](https://hub.docker.com/r/mikenye/adsbhub)
 [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/mikenye/adsbhub/latest)](https://hub.docker.com/r/mikenye/adsbhub)
 [![Discord](https://img.shields.io/discord/734090820684349521)](https://discord.gg/sTf9uYF)
 
@@ -9,11 +7,9 @@ Docker container to send ADS-B data to [ADSBHub](https://www.adsbhub.org). Desig
 
 This container pulls SBS/Basestation protocol data from a host or container, and sends the data to ADSBHub.
 
-Thanks go to [fredclausen](https://github.com/fredclausen) for developing the original image.
-
 ## Supported tags and respective Dockerfiles
 
-* `latest` (`master` branch, `Dockerfile`)
+* `latest` (`main` branch, `Dockerfile`)
 * Version and architecture specific tags available
 
 ## First-time users
@@ -90,56 +86,6 @@ If your client key was `abc$123$$$ABC`, your `docker-compose.yml` should look li
 environment:
   - 'CLIENTKEY=abc$$123$$$$$$ABC'
 ```
-
-## Up-and-Running with Docker Compose, including `mikenye/readsb`
-
-```yaml
-version: '2.0'
-
-networks:
-  adsbnet:
-
-services:
-
-  readsb:
-    image: mikenye/readsb:latest
-    tty: true
-    container_name: readsb
-    restart: always
-    devices:
-      - /dev/bus/usb/001/007:/dev/bus/usb/001/007
-    networks:
-      - adsbnet
-    command:
-      - --dcfilter
-      - --device-type=rtlsdr
-      - --fix
-      - --json-location-accuracy=2
-      - --lat=-33.33333
-      - --lon=111.11111
-      - --metric
-      - --mlat
-      - --modeac
-      - --ppm=0
-      - --net
-      - --stats-every=3600
-      - --quiet
-      - --write-json=/var/run/readsb
-
-  adsbhub:
-    image: ghcr.io/sdr-enthusiasts/docker-adsbhub:latest
-    tty: true
-    container_name: adsbhub
-    restart: always
-    environment:
-      - TZ=Australia/Perth
-      - SBSHOST=readsb
-      - CLIENTKEY=zg84632abhf231
-    networks:
-      - adsbnet
-```
-
-For an explanation of the `mikenye/readsb` image's configuration, see that image's readme.
 
 ## Ports
 
