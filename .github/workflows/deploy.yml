@@ -394,7 +394,7 @@ jobs:
       # Get metadata from repo
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -442,7 +442,7 @@ jobs:
       # Get metadata from repo
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -501,7 +501,7 @@ jobs:
       # Get metadata from repo
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -553,7 +553,7 @@ jobs:
       # Get metadata from repo
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
 
@@ -625,7 +625,7 @@ jobs:
       # Get metadata from repo
       - name: Extract metadata (tags, labels) for Docker
         id: meta
-        uses: docker/metadata-action@v3
+        uses: docker/metadata-action@v4
         with:
           images: ${{ env.GHCR_REGISTRY }}/${{ env.IMAGE_NAME }}
 
