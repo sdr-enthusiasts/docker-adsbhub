@@ -75,7 +75,7 @@ jobs:
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Build "latest"
       -
@@ -118,7 +118,7 @@ jobs:
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Get version from "latest"
       -
@@ -174,7 +174,7 @@ jobs:
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Patch dockerfile to remove healthcheck
       -
@@ -223,7 +223,7 @@ jobs:
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Get version from "latest"
       -
@@ -291,7 +291,7 @@ jobs:
       -
         name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Get archictecture suffix
       -
@@ -405,7 +405,7 @@ jobs:
       # Set up buildx for multi platform builds
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Build "latest"
       - name: Build & Push - latest
@@ -453,7 +453,7 @@ jobs:
       # Set up buildx for multi platform builds
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Get version from "latest"
       - name: Get latest image version
@@ -512,7 +512,7 @@ jobs:
       # Set up buildx for multi platform builds
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Patch dockerfile to remove healthcheck
       - name: Patch Dockerfile to remove healthcheck
@@ -575,7 +575,7 @@ jobs:
       # Set up buildx for multi platform builds
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Patch dockerfile to remove healthcheck
       - name: Patch Dockerfile to remove healthcheck
@@ -636,7 +636,7 @@ jobs:
       # Set up buildx for multi platform builds
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
 
       # Get archictecture suffix
       - name: Get image architecture suffix
