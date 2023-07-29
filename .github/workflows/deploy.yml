@@ -63,10 +63,10 @@ jobs:
       push_enabled: true
       push_destinations: ghcr.io;dockerhub
       dockerhub_profile: mikenye #legacy
-      dockerhub_repo: docker-readsb-protobuf #legacy
+      dockerhub_repo: adsbhub #legacy
       ghcr_repo_owner: ${{ github.repository_owner }}
       ghcr_repo: ${{ github.repository }}
-      platform_linux_arm32v6_enabled: false
+      platform_linux_arm32v6_enabled: true
       platform_linux_i386_enabled: false
       get_version_method: file_in_container:file=/CONTAINER_VERSION
       # set build_latest to true if github.event.inputs.use_test_image is false
@@ -76,33 +76,7 @@ jobs:
       build_version_specific: ${{ github.event.inputs.use_test_image == 'false' }}
       build_platform_specific: ${{ github.event.inputs.use_test_image == 'false' }}
       build_nohealthcheck: ${{ github.event.inputs.use_test_image == 'false' }}
-      build_baseimage_url: readsb-full/readsb-full-test-pr
+      build_baseimage_url: :base/:base-test-pr
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
-      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}docker run --rm -i -v "$PWD":/workdir --workdir /workdir --entrypoint hadolint hadolint/hadolint --ignore DL3003 --ignore DL3006 --ignore DL3010 --ignore DL4001 --ignore DL3007 --ignore DL3008 --ignore SC2068 --ignore DL3007 --ignore SC1091 --ignore DL3013 --ignore DL3010 $(find . -type f -iname "Dockerfile*")
-
-  build_and_push:
-      name: Image Build & Push
-      uses: sdr-enthusiasts/common-github-workflows/.github/workflows/build_and_push_image.yml@main
-      needs: [hadolint]
-      with:
-        push_enabled: true
-        push_destinations: ghcr.io;dockerhub
-        dockerhub_profile: mikenye #legacy
-        dockerhub_repo: adsbhub #legacy
-        ghcr_repo_owner: ${{ github.repository_owner }}
-        ghcr_repo: ${{ github.repository }}
-        platform_linux_arm32v6_enabled: true
-        platform_linux_i386_enabled: false
-        get_version_method: file_in_container:file=/CONTAINER_VERSION
-        # set build_latest to true if github.event.inputs.use_test_image is false
-        build_latest: ${{ github.event.inputs.use_test_image == 'false' }}
-        build_baseimage_test: ${{ github.event.inputs.use_test_image == 'true' }}
-        # only build the entire stack if we are not using the test image
-        build_version_specific: ${{ github.event.inputs.use_test_image == 'false' }}
-        build_platform_specific: ${{ github.event.inputs.use_test_image == 'false' }}
-        build_nohealthcheck: ${{ github.event.inputs.use_test_image == 'false' }}
-        build_baseimage_url: :base/:base-test-pr
-      secrets:
-        ghcr_token: ${{ secrets.GITHUB_TOKEN }}
-        dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
+      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
