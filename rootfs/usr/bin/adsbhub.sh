@@ -12,6 +12,8 @@ myip4="0.0.0.0"
 myip6="::"
 cmin=0
 
+shouldprint=1
+
 while true; do
 
     # Check connection and reconnect
@@ -23,11 +25,22 @@ while true; do
       result="connected"
     else
       result="not connected"
+      shouldprint=1
       eval "${cmd}" &
     fi
 
-    echo "$result"
-
+    if [ "$result" == "connected" ]
+    then
+      if [ $shouldprint -eq 1 ]
+      then
+        shouldprint=0
+        echo "$result"
+        echo "Will not print this message again unless connection is lost"
+      fi
+    else
+      shouldprint=1
+      echo "$result"
+    fi
 
     # Update IP if change
     if [ -n "$ckey" ]
@@ -57,11 +70,11 @@ while true; do
               myip6=$currentip6
               echo "$result"
             fi
-	  fi
-	fi
+	        fi
+	      fi
       fi
     fi
 
     sleep 60
-    
+
 done
