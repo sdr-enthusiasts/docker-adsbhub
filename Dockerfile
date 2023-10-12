@@ -12,4 +12,3 @@ RUN set -x && \
     chmod 755 /usr/bin/adsbhub.sh
 # Add healthcheck
 HEALTHCHECK --start-period=3600s --interval=600s CMD /scripts/healthcheck.sh
-
