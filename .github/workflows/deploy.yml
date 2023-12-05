@@ -66,7 +66,7 @@ jobs:
       dockerhub_repo: adsbhub #legacy
       ghcr_repo_owner: ${{ github.repository_owner }}
       ghcr_repo: ${{ github.repository }}
-      platform_linux_arm32v6_enabled: true
+      platform_linux_arm32v6_enabled: false
       platform_linux_i386_enabled: false
       get_version_method: file_in_container:file=/CONTAINER_VERSION
       # set build_latest to true if github.event.inputs.use_test_image is false
