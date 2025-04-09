@@ -61,8 +61,7 @@ jobs:
     needs: [hadolint]
     with:
       push_enabled: true
-      push_destinations: ghcr.io;dockerhub
-      dockerhub_profile: mikenye #legacy
+      push_destinations: ghcr.io
       dockerhub_repo: adsbhub #legacy
       ghcr_repo_owner: ${{ github.repository_owner }}
       ghcr_repo: ${{ github.repository }}
@@ -79,4 +78,3 @@ jobs:
       build_baseimage_url: :base/:base-test-pr
     secrets:
       ghcr_token: ${{ secrets.GITHUB_TOKEN }}
-      dockerhub_token: ${{ secrets.DOCKERHUB_TOKEN }}
