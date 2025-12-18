@@ -1,0 +1,3 @@
+.direnv
+source-stubs
+.pre-commit-config.yaml

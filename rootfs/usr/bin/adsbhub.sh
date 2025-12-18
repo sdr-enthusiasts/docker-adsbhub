@@ -20,59 +20,50 @@ while true; do
     check=$(netstat -a | grep "adsbhub[.]org[.]5001 \|adsbhub[.]org:5001 \|data[.]adsbhub[.]org[.]5001 \|data[.]adsbhub[.]org:5001 ")
     #check=`netstat -an | grep "94[.]130[.]23[.]233[.]5001 \|94[.]130[.]23[.]233:5001 "`
 
-    if [ ${#check} -ge 10 ]
-    then
-      result="connected"
+    if [ ${#check} -ge 10 ]; then
+        result="connected"
     else
-      result="not connected"
-      shouldprint=1
-      eval "${cmd}" &
+        result="not connected"
+        shouldprint=1
+        eval "${cmd}" &
     fi
 
-    if [ "$result" == "connected" ]
-    then
-      if [ $shouldprint -eq 1 ]
-      then
-        shouldprint=0
-        echo "$result"
-        echo "Will not print this message again unless connection is lost"
-      fi
+    if [ "$result" == "connected" ]; then
+        if [ $shouldprint -eq 1 ]; then
+            shouldprint=0
+            echo "$result"
+            echo "Will not print this message again unless connection is lost"
+        fi
     else
-      shouldprint=1
-      echo "$result"
+        shouldprint=1
+        echo "$result"
     fi
 
     # Update IP if change
-    if [ -n "$ckey" ]
-    then
-      cmin=$((cmin-1))
-      if [ $cmin -le 0 ]
-      then
-        cmin=5
-        currentip4=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip4.adsbhub.org/getmyip.php)
-        currentip6=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip6.adsbhub.org/getmyip.php)
+    if [ -n "$ckey" ]; then
+        cmin=$((cmin - 1))
+        if [ $cmin -le 0 ]; then
+            cmin=5
+            currentip4=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip4.adsbhub.org/getmyip.php)
+            currentip6=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://ip6.adsbhub.org/getmyip.php)
 
-        # shellcheck disable=SC2235
-        if ( [ ${#currentip4} -ge 7 ] && [ "$currentip4" != "$myip4" ] ) || ( [ ${#currentip6} -ge 2 ] && [ "$currentip6" != "$myip6" ] )
-        then
-          skey=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://www.adsbhub.org/key.php)
-          if [ ${#skey} -ge 33 ]
-          then
-            ss=${skey: -1}
-            skey=${skey::-1}
-            md5=$(echo -n "$ckey""$skey" | md5sum | awk '{print $1}')
+            if { [ ${#currentip4} -ge 7 ] && [ "$currentip4" != "$myip4" ]; } || { [ ${#currentip6} -ge 2 ] && [ "$currentip6" != "$myip6" ]; }; then
+                skey=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- https://www.adsbhub.org/key.php)
+                if [ ${#skey} -ge 33 ]; then
+                    ss=${skey: -1}
+                    skey=${skey::-1}
+                    md5=$(echo -n "$ckey""$skey" | md5sum | awk '{print $1}')
 
-            result=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- "https://www.adsbhub.org/updateip.php?sessid=$md5$ss&myip=$currentip4&myip6=$currentip6")
+                    result=$(timeout -s KILL 5 wget -o /dev/null --no-check-certificate -qO- "https://www.adsbhub.org/updateip.php?sessid=$md5$ss&myip=$currentip4&myip6=$currentip6")
 
-            if [ "$result" == "$md5$ss" ]
-            then
-              myip4=$currentip4
-              myip6=$currentip6
-              echo "$result"
+                    if [ "$result" == "$md5$ss" ]; then
+                        myip4=$currentip4
+                        myip6=$currentip6
+                        echo "$result"
+                    fi
+                fi
             fi
-	        fi
-	      fi
-      fi
+        fi
     fi
 
     sleep 60
